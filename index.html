@@ -28,7 +28,7 @@ dialog{border:0;border-radius:14px;max-width:390px;width:calc(100% - 30px);paddi
 footer{text-align:center;font-size:10px;color:#8aa0a4;padding:12px}
 @media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{position:static;display:flex;overflow:auto;gap:4px;padding:7px}.nav-title,.sidebar-note{display:none}.nav-btn{width:auto;min-width:max-content;margin:0;padding:10px}.nav-icon{display:none}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.app{padding:12px}.topbar{align-items:flex-start}.logo{width:39px;height:39px}h1{font-size:19px}}
 @media(max-width:850px){.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:520px){.topbar{display:block}.top-actions{margin-top:12px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.page-heading{align-items:center}.page-heading h2{font-size:19px}.stat{padding:13px}.stat-number{font-size:23px}.panel{padding:13px}.search-row{flex-wrap:wrap}.search-row input{flex-basis:100%}.practice-word{font-size:25px}}
+@media(max-width:520px){input,textarea,select{font-size:16px!important}.topbar{display:block}.top-actions{margin-top:12px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.page-heading{align-items:center}.page-heading h2{font-size:19px}.stat{padding:13px}.stat-number{font-size:23px}.panel{padding:13px}.search-row{flex-wrap:wrap}.search-row input{flex-basis:100%}.practice-word{font-size:25px}}
 </style>
 </head>
 <body>
@@ -284,7 +284,7 @@ footer{text-align:center;font-size:10px;color:#8aa0a4;padding:12px}
     const id=$('editId').value;const old=words.find(w=>w.id===id);
     const record={id:id||`${Date.now()}_${Math.random().toString(36).slice(2,8)}`,bengali,english,pronunciation:$('pronunciation').value.trim(),similar:$('similar').value.trim(),example:old?.example||'',notes:$('notes').value.trim(),createdAt:old?.createdAt||Date.now(),createdDate:old?.createdDate||todayKey(),mastered:old?.mastered||false};
     if(id){words=words.map(w=>w.id===id?record:w);toast('Word updated successfully.');}else{words.push(record);toast('Word saved successfully.');}
-    if(persist()){resetForm();go('vocabulary');}
+    if(persist()){if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();resetForm();go('vocabulary');setTimeout(()=>{if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();window.scrollTo({top:0,behavior:'smooth'});},80);}
   });
   function askDelete(id){pendingDelete=id;$('confirmTitle').textContent='Delete Word';$('confirmText').textContent='Are you sure you want to delete this word? This action cannot be undone.';$('confirmOk').textContent='Yes, Delete';$('confirmDialog').showModal();}
   $('confirmCancel').onclick=()=>{$('confirmDialog').close();pendingDelete=null;};
