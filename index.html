@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#126b65">
+<title>My Vocabulary</title>
+<style>
+:root{--bg:#f3f7f8;--panel:#fff;--ink:#183238;--muted:#657b80;--primary:#126b65;--primary2:#19877f;--line:#dce8e9;--soft:#e7f5f2;--danger:#c43d4b;--shadow:0 8px 24px rgba(24,60,65,.07)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Arial,"Noto Sans Bengali",sans-serif;color:var(--ink);font-size:14px}
+button,input,textarea,select{font:inherit}button{cursor:pointer;border:0;border-radius:9px;padding:10px 13px;font-weight:600;transition:.15s}button:disabled{opacity:.55;cursor:wait}
+.app{max-width:1250px;margin:auto;padding:18px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}.brand{display:flex;align-items:center;gap:11px}.logo{height:44px;width:44px;border-radius:13px;background:linear-gradient(135deg,#126b65,#39a79b);color:#fff;display:grid;place-items:center;font-size:22px;font-weight:800;box-shadow:var(--shadow)}h1{font-size:22px;margin:0 0 4px} .subtitle{color:var(--muted);font-size:12px}.top-actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn-primary{background:var(--primary);color:white}.btn-primary:hover{background:#0b5752}.btn-soft{background:var(--soft);color:var(--primary)}.btn-light{background:#edf2f3;color:#355158}.btn-danger{background:#fff0f1;color:var(--danger)}.btn-outline{background:#fff;border:1px solid var(--line);color:#355158}
+.layout{display:grid;grid-template-columns:220px minmax(0,1fr);gap:18px}.sidebar,.panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow)}.sidebar{padding:12px;height:max-content;position:sticky;top:12px}.nav-title{font-size:10px;letter-spacing:1.2px;color:#8aa0a4;font-weight:800;padding:10px 11px}.nav-btn{width:100%;display:flex;align-items:center;gap:10px;text-align:left;background:transparent;color:#4c656b;padding:12px;margin-bottom:4px}.nav-btn.active,.nav-btn:hover{background:var(--soft);color:var(--primary)}.nav-icon{width:22px;text-align:center;font-size:17px}.sidebar-note{border-top:1px solid var(--line);margin-top:10px;padding:13px 10px;color:var(--muted);font-size:11px;line-height:1.5}
+main{min-width:0}.page{display:none}.page.active{display:block}.page-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin:2px 0 16px}.page-heading h2{font-size:21px;margin:0 0 5px}.page-heading p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}.stat{border-radius:12px;padding:12px 13px;background:#fff;border:1px solid var(--line);position:relative;overflow:hidden}.stat:after{content:"";position:absolute;width:58px;height:58px;right:-16px;top:-18px;border-radius:50%;background:var(--stat-bg,#e7f5f2)}.stat-label{font-size:10px;color:var(--muted);margin-bottom:5px}.stat-number{font-size:23px;font-weight:800;letter-spacing:.3px}.stat-foot{font-size:10px;color:var(--muted);margin-top:3px}.stat:nth-child(2){--stat-bg:#eaf0ff}.stat:nth-child(3){--stat-bg:#fff1d9}.stat:nth-child(4){--stat-bg:#f5eaff}
+.panel{padding:13px 15px;margin-bottom:12px}.panel-title{font-size:14px;font-weight:800;margin:0 0 9px;display:flex;align-items:center;justify-content:space-between;gap:8px}.search-row{display:flex;gap:7px}.search-row input{flex:1;min-width:0}
+input,textarea,select{width:100%;border:1px solid #d6e3e5;border-radius:8px;padding:9px 11px;background:#fff;color:var(--ink);outline:none}input:focus,textarea:focus,select:focus{border-color:#50a99f;box-shadow:0 0 0 3px rgba(25,135,127,.1)}textarea{resize:vertical;min-height:75px}.field label{display:block;font-size:11px;font-weight:700;color:#536d72;margin:0 0 7px}.field small{display:block;color:var(--muted);font-size:10px;margin-top:5px}.form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.field.full{grid-column:1/-1}.field-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.form-note{font-size:11px;color:var(--muted);line-height:1.5;margin:10px 0 0}.status{font-size:11px;color:var(--primary);min-height:16px;margin-top:7px}
+.table-wrap{width:100%;overflow:auto;border:1px solid var(--line);border-radius:11px}table{width:100%;border-collapse:collapse;min-width:720px}th{background:#f0f7f7;color:#536d72;font-size:10px;letter-spacing:.4px;text-transform:uppercase;text-align:left;padding:12px 11px;white-space:nowrap}td{padding:11px;border-top:1px solid #e8eff0;vertical-align:top;font-size:12px;line-height:1.45}tbody tr:hover{background:#fbfdfd}.word-main{font-size:13px;font-weight:700;margin-bottom:3px}.word-sub{color:var(--muted);font-size:11px;white-space:pre-wrap}.pill{display:inline-block;background:var(--soft);color:var(--primary);border-radius:20px;padding:4px 7px;font-size:10px}.row-actions{display:flex;gap:5px}.icon-btn{padding:6px 8px;border-radius:7px;font-size:12px}.empty{text-align:center;color:var(--muted);padding:28px 12px}.empty strong{display:block;color:#38545a;margin-bottom:5px}.muted{color:var(--muted)}.hidden{display:none!important}
+.notice{padding:11px 12px;background:#fff8e8;border:1px solid #f3e0ac;border-radius:9px;color:#72561a;font-size:11px;line-height:1.5;margin-bottom:13px}
+.practice-card{text-align:center;padding:30px 16px}.practice-label{font-size:10px;letter-spacing:1.4px;color:var(--muted);font-weight:800}.practice-word{font-size:30px;font-weight:800;margin:16px 0;overflow-wrap:anywhere}.answer{font-size:18px;color:var(--primary);font-weight:700;margin:12px 0}.practice-buttons{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:18px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#183238;color:white;padding:11px 16px;border-radius:10px;box-shadow:var(--shadow);z-index:10;max-width:calc(100% - 30px);font-size:12px}
+dialog{border:0;border-radius:14px;max-width:390px;width:calc(100% - 30px);padding:20px;box-shadow:0 18px 55px #122d3040;color:var(--ink)}dialog::backdrop{background:#0d262b80}dialog h3{margin:0 0 8px}dialog p{font-size:13px;line-height:1.5;color:var(--muted)}.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+footer{text-align:center;font-size:10px;color:#8aa0a4;padding:12px}
+@media(max-width:850px){.layout{grid-template-columns:1fr}.sidebar{position:static;display:flex;overflow:auto;gap:4px;padding:7px}.nav-title,.sidebar-note{display:none}.nav-btn{width:auto;min-width:max-content;margin:0;padding:10px}.nav-icon{display:none}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.app{padding:12px}.topbar{align-items:flex-start}.logo{width:39px;height:39px}h1{font-size:19px}}
+@media(max-width:850px){.form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.topbar{display:block}.top-actions{margin-top:12px}.form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}.page-heading{align-items:center}.page-heading h2{font-size:19px}.stat{padding:13px}.stat-number{font-size:23px}.panel{padding:13px}.search-row{flex-wrap:wrap}.search-row input{flex-basis:100%}.practice-word{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="logo">V</div><div><h1>My Vocabulary</h1><div class="subtitle">Your personal word-learning space</div></div></div>
+    <div class="top-actions">
+      <button class="btn-outline" id="backupTop">⇩ Backup</button>
+      <button class="btn-outline" id="restoreTop">⇧ Restore</button>
+      <input type="file" id="restoreFile" accept=".json,application/json" class="hidden">
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="nav-title">WORKSPACE</div>
+      <button class="nav-btn active" data-page="dashboard"><span class="nav-icon">▦</span>Dashboard</button>
+      <button class="nav-btn" data-page="vocabulary"><span class="nav-icon">▤</span>My Vocabulary</button>
+      <button class="nav-btn" data-page="add"><span class="nav-icon">＋</span>Add New Word</button>
+      <button class="nav-btn" data-page="practice"><span class="nav-icon">✦</span>Practice</button>
+      <div class="sidebar-note">Words are saved on this device. Use Backup to keep a copy or move your vocabulary to another device.</div>
+    </aside>
+
+    <main>
+      <section class="page active" id="page-dashboard">
+        <div class="page-heading"><div><h2>Dashboard</h2><p>Build your vocabulary one word at a time.</p></div></div>
+        <div class="stats">
+          <div class="stat"><div class="stat-label">TOTAL WORDS</div><div class="stat-number" id="totalWords">0</div><div class="stat-foot">Saved in your vocabulary</div></div>
+          <div class="stat"><div class="stat-label">ADDED TODAY</div><div class="stat-number" id="todayWords">0</div><div class="stat-foot">Words added today</div></div>
+          <div class="stat"><div class="stat-label">TO REVIEW</div><div class="stat-number" id="reviewWords">0</div><div class="stat-foot">Words not marked as mastered</div></div>
+          <div class="stat"><div class="stat-label">MASTERED</div><div class="stat-number" id="masteredWords">0</div><div class="stat-foot">Words you know well</div></div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Search Vocabulary <span class="pill">Bengali + English</span></div>
+          <div class="search-row"><input id="dashSearch" placeholder="Type a Bengali or English word..." autocomplete="off"><button class="btn-primary" id="dashSearchBtn">Search</button></div>
+          <div id="dashSimilarResults" class="word-sub" style="margin-top:8px"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-title">Recently Added <button class="btn-soft" id="viewAll">View All</button></div>
+          <div id="recentTable"></div>
+        </div>
+      </section>
+
+      <section class="page" id="page-vocabulary">
+        <div class="page-heading"><div><h2>My Vocabulary</h2><p>Search, review, edit, and organize your saved words.</p></div></div>
+        <div class="panel">
+          <div class="search-row"><input id="vocabSearch" placeholder="Search Bengali, English, similar words..."><button class="btn-primary" id="vocabSearchBtn">Search</button><button class="btn-light" id="clearSearch">Clear</button></div>
+          <p class="form-note" id="searchCount">Showing all saved words.</p><div id="vocabSimilarResults" class="word-sub" style="margin-top:8px"></div>
+        </div>
+        <div class="panel"><div id="allTable"></div></div>
+      </section>
+
+      <section class="page" id="page-add">
+        <div class="page-heading"><div><h2 id="formTitle">Add New Word</h2><p>Enter either a Bengali word or an English word. Fill in only what you need.</p></div></div>
+        <div class="panel">
+          <form id="wordForm">
+            <input type="hidden" id="editId">
+            <input id="english" type="hidden"><input id="bengali" type="hidden">
+            <div class="form-grid">
+              <div class="field full"><label for="wordInput">WORD (বাংলা অথবা English — একই ঘরে লিখুন)</label><input id="wordInput" type="text" placeholder="" autocomplete="off" autocapitalize="off" spellcheck="false"></div>
+              <div class="field full"><label for="translationResult">TRANSLATION RESULT</label><input id="translationResult" type="text" placeholder="" readonly></div>
+              <div class="field"><label for="pronunciation">বাংলা উচ্চারণ (Automatic)</label><input id="pronunciation" type="text" placeholder="" autocomplete="off"></div>
+              <div class="field full"><div class="field-actions"><button type="button" class="btn-light" id="speakWord">🔊 Hear English</button></div><div class="status" id="onlineStatus"></div></div>
+              <div class="field full"><label for="similar">SIMILAR WORDS</label><input id="similar" placeholder=""></div>
+              <div class="field full"><label for="notes">NOTES</label><textarea id="notes" placeholder=""></textarea></div>
+            </div>
+            <div class="field-actions" style="margin-top:17px"><button class="btn-primary" type="submit" id="saveWord">Save Word</button><button class="btn-light" type="button" id="resetForm">Clear Form</button><button class="btn-outline" type="button" id="cancelEdit">Cancel</button></div>
+            <p class="form-note">Meaning search uses an online translation service. Similar-word suggestions use an online word service. Results may not always fit every context.</p>
+          </form>
+        </div>
+      </section>
+
+      <section class="page" id="page-practice">
+        <div class="page-heading"><div><h2>Practice</h2><p>Try to remember the meaning before revealing the answer.</p></div></div>
+        <div class="panel practice-card" id="practicePanel">
+          <div class="practice-label" id="practiceDirection">BENGALI → ENGLISH</div>
+          <div class="practice-word" id="practicePrompt">Add words to begin practicing</div>
+          <div id="practiceAnswer" class="answer hidden"></div>
+          <div class="muted" id="practiceExtra"></div>
+          <div class="practice-buttons"><button class="btn-primary" id="showAnswer">Show Answer</button><button class="btn-soft hidden" id="knewIt">I Knew It ✓</button><button class="btn-light hidden" id="reviewAgain">Review Again</button><button class="btn-outline" id="nextPractice">Next Word →</button></div>
+        </div>
+        <div class="panel"><div class="panel-title">Practice Tip</div><p class="form-note">Use short, regular practice sessions. Mark a word as mastered when you can remember it without looking. You can change this status later by practicing again.</p></div>
+      </section>
+      <footer>My Vocabulary · Your words are stored locally in this browser.</footer>
+    </main>
+  </div>
+</div>
+
+<dialog id="confirmDialog"><h3 id="confirmTitle">Confirm Delete</h3><p id="confirmText">Are you sure?</p><div class="dialog-actions"><button class="btn-light" id="confirmCancel">Cancel</button><button class="btn-danger" id="confirmOk">Delete</button></div></dialog>
+<div id="toast" class="toast hidden" role="status"></div>
+<script>
+(() => {
+  const STORAGE_KEY = 'myVocabularyWords_v1';
+  let words = loadWords(), pendingDelete = null, practiceWord = null, currentFilter = '';
+  const $ = id => document.getElementById(id);
+  function loadWords(){ try { const v=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); return Array.isArray(v)?v:[]; } catch(e){ return []; } }
+  function persist(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(words)); renderAll(); }
+  function todayKey(){ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+  function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function toast(msg){$('toast').textContent=msg;$('toast').classList.remove('hidden');clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').classList.add('hidden'),2600);}
+  function go(page){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+page));document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));if(page==='add'&&!$('editId').value)resetForm(false);if(page==='practice')startPractice();window.scrollTo({top:0,behavior:'smooth'});}
+  document.querySelectorAll('.nav-btn').forEach(b=>b.addEventListener('click',()=>go(b.dataset.page)));
+  $('viewAll').onclick=()=>go('vocabulary');
+  $('backupTop').onclick=backup; $('restoreTop').onclick=()=>$('restoreFile').click();
+
+  function rowHtml(w,i){
+    const bn=escapeHtml(w.bengali||'—'), en=escapeHtml(w.english||'—'), pron=escapeHtml(w.pronunciation||''), sim=escapeHtml(w.similar||''), ex=escapeHtml(w.example||''), note=escapeHtml(w.notes||'');
+    return `<tr><td>${i+1}</td><td><div class="word-main">${bn}</div></td><td><div class="word-main">${en}</div>${pron?`<div class="word-sub">Pronunciation: ${pron}</div>`:''}${sim?`<div class="word-sub">Similar: ${sim}</div>`:''}</td><td>${ex?`<div>${ex}</div>`:'<span class="muted">—</span>'}${note?`<div class="word-sub">Note: ${note}</div>`:''}</td><td><span class="pill">${w.mastered?'Mastered':'Review'}</span></td><td><div class="row-actions"><button class="btn-soft icon-btn" data-edit="${w.id}" title="Edit">✎</button><button class="btn-danger icon-btn" data-delete="${w.id}" title="Delete">×</button></div></td></tr>`;
+  }
+  function tableHtml(list){
+    if(!list.length)return `<div class="empty"><strong>No words found</strong>Add a new word or try another search.</div>`;
+    return `<div class="table-wrap"><table><thead><tr><th>#</th><th>Bengali</th><th>English & Similar Words</th><th>Example / Notes</th><th>Status</th><th>Actions</th></tr></thead><tbody>${list.map((w,i)=>rowHtml(w,i)).join('')}</tbody></table></div>`;
+  }
+  function renderAll(){
+    $('totalWords').textContent=words.length;
+    $('todayWords').textContent=words.filter(w=>w.createdDate===todayKey()).length;
+    $('masteredWords').textContent=words.filter(w=>w.mastered).length;
+    $('reviewWords').textContent=words.filter(w=>!w.mastered).length;
+    const newest=[...words].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,5);
+    $('recentTable').innerHTML=tableHtml(newest);
+    const q=currentFilter.trim().toLocaleLowerCase();
+    const filtered=words.filter(w=>!q||[w.bengali,w.english,w.pronunciation,w.similar,w.example,w.notes].some(v=>(v||'').toLocaleLowerCase().includes(q)));
+    $('allTable').innerHTML=tableHtml(filtered);
+    $('searchCount').textContent=q?`Showing ${filtered.length} of ${words.length} saved words.`:`Showing all ${words.length} saved words.`;
+    document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>editWord(b.dataset.edit));
+    document.querySelectorAll('[data-delete]').forEach(b=>b.onclick=()=>askDelete(b.dataset.delete));
+  }
+  function resetForm(clearStatus=true){clearTimeout(pronunciationTimer);clearTimeout(translationTimer);translationRequestId++;$('wordForm').reset();$('english').value='';$('bengali').value='';$('wordInput').value='';$('translationResult').value='';$('pronunciation').value='';autoPronunciationValue='';autoExampleValue='';lastEnglishValue='';$('editId').value='';$('formTitle').textContent='Add New Word';$('saveWord').textContent='Save Word';if(clearStatus)$('onlineStatus').textContent='';}
+  $('resetForm').onclick=()=>resetForm(); $('cancelEdit').onclick=()=>{resetForm();go('vocabulary');};
+  function editWord(id){const w=words.find(x=>x.id===id);if(!w)return;go('add');$('editId').value=w.id;$('bengali').value=w.bengali||'';$('english').value=w.english||'';$('wordInput').value=w.english||w.bengali||'';$('translationResult').value=w.bengali||'';$('pronunciation').value=w.pronunciation||'';autoPronunciationValue=w.pronunciation||'';lastEnglishValue=w.english||'';$('similar').value=w.similar||'';autoExampleValue='';$('notes').value=w.notes||'';$('formTitle').textContent='Edit Word';$('saveWord').textContent='Update Word';$('onlineStatus').textContent='';}
+  let autoPronunciationValue = '';
+  let pronunciationRequest = null;
+  let pronunciationTimer = null;
+  const commonPronunciations = {
+    ability:'অ্যাবিলিটি', beautiful:'বিউটিফুল', knowledge:'নলেজ', school:'স্কুল', book:'বুক', apple:'অ্যাপল',
+    water:'ওয়াটার', people:'পিপল', computer:'কম্পিউটার', vocabulary:'ভোকাবুলারি', pronunciation:'প্রোনানসিয়েশন',
+    language:'ল্যাঙ্গুয়েজ', english:'ইংলিশ', friend:'ফ্রেন্ড', family:'ফ্যামিলি', house:'হাউস', home:'হোম',
+    happy:'হ্যাপি', happiness:'হ্যাপিনেস', important:'ইমপোর্ট্যান্ট', education:'এডুকেশন', teacher:'টিচার', student:'স্টুডেন্ট',
+    morning:'মর্নিং', evening:'ইভনিং', good:'গুড', morning:'মর্নিং', love:'লাভ', work:'ওয়ার্ক', learn:'লার্ন',
+    practice:'প্র্যাকটিস', example:'একজ্যাম্পল', family:'ফ্যামিলি', business:'বিজনেস', beautiful:'বিউটিফুল',
+    country:'কান্ট্রি', Bangladesh:'বাংলাদেশ', thank:'থ্যাঙ্ক', thanks:'থ্যাঙ্কস', welcome:'ওয়েলকাম'
+  };
+  function roughBengaliPronunciation(word){
+    // Offline fallback: approximate English spelling with Bengali sounds; not a dictionary-quality reading.
+    let w=(word||'').toLowerCase().trim().replace(/[^a-z -]/g,'').replace(/\s+/g,' ');
+    if(!w) return '';
+    const chunks=[
+      [/tion/g,'শন'],[/sion/g,'শন'],[/ough/g,'অফ'],[/eigh/g,'এই'],[/igh/g,'আই'],[/tch/g,'চ'],[/sh/g,'শ'],[/ch/g,'চ'],[/th/g,'থ'],[/ph/g,'ফ'],[/wh/g,'হু'],[/ck/g,'ক'],[/qu/g,'কু'],[/ee/g,'ী'],[/ea/g,'ী'],[/oo/g,'ু'],[/ou/g,'আউ'],[/ow/g,'আউ'],[/ai/g,'এই'],[/ay/g,'এ'],[/oi/g,'অয়'],[/oy/g,'য়'],[/oo/g,'ু'],[/ar/g,'আর'],[/er/g,'আর'],[/ir/g,'আর'],[/or/g,'অর'],[/ur/g,'আর'],[/ing/g,'িং'],[/ed/g,'ড'],[/ly/g,'লি'],[/ies/g,'িজ'],[/y/g,'ি']
+    ];
+    for(const [re,to] of chunks) w=w.replace(re,to);
+    const map={a:'অ',b:'ব',c:'ক',d:'ড',e:'এ',f:'ফ',g:'গ',h:'হ',i:'ই',j:'জ',k:'ক',l:'ল',m:'ম',n:'ন',o:'অ',p:'প',q:'ক',r:'র',s:'স',t:'ট',u:'আ',v:'ভ',w:'ও',x:'ক্স',y:'ই',z:'জ',' ':' ' ,'-':'-'};
+    return [...w].map(ch=>map[ch]||ch).join('').replace(/অ্য/g,'অ্যা').replace(/অঅ/g,'অ').trim();
+  }
+  async function fetchPronunciation(word){
+    const cleanWord=(word||'').trim();
+    if(!cleanWord || isBengali(cleanWord)) return '';
+    const local=commonPronunciations[cleanWord.toLowerCase()];
+    if(local) return local;
+    const urls=[
+      'https://inputtools.google.com/request?text='+encodeURIComponent(cleanWord)+'&itc=bn-t-i0-und&num=5&cp=0&cs=1&ie=utf-8&oe=utf-8',
+      'https://inputtools.google.com/request?text='+encodeURIComponent(cleanWord)+'&itc=bn-t-i0-und&num=5&ie=utf-8&oe=utf-8'
+    ];
+    let lastError;
+    for(const url of urls){
+      try{
+        const data=await fetchJson(url);
+        if(Array.isArray(data)&&data[0]==='SUCCESS'&&Array.isArray(data[1])){
+          const item=data[1].find(x=>Array.isArray(x)&&Array.isArray(x[1])&&x[1].length);
+          if(item){const candidate=String(item[1][0]||'').trim();if(candidate&&isBengali(candidate))return candidate;}
+        }
+      }catch(err){lastError=err;}
+    }
+    const fallback=roughBengaliPronunciation(cleanWord);
+    if(fallback) return fallback;
+    throw lastError||new Error('Pronunciation not found');
+  }
+  async function autoFillPronunciation(force=false){
+    const english=$('english').value.trim();
+    const current=$('pronunciation').value.trim();
+    if(!english || isBengali(english)) return '';
+    if(!force && current && current!==autoPronunciationValue) return current;
+    $('onlineStatus').textContent='বাংলা উচ্চারণ খোঁজা হচ্ছে...';
+    const requestedWord=english;
+    const request=(async()=>{
+      const result=await fetchPronunciation(requestedWord);
+      if($('english').value.trim()!==requestedWord) return '';
+      const now=$('pronunciation').value.trim();
+      if(!now || now===autoPronunciationValue || force){ $('pronunciation').value=result; autoPronunciationValue=result; }
+      $('onlineStatus').textContent=result?'বাংলা উচ্চারণ যোগ হয়েছে (কিছু শব্দে আনুমানিক হতে পারে)।':'এই শব্দের উচ্চারণ পাওয়া যায়নি।';
+      return result;
+    })();
+    pronunciationRequest=request;
+    try{return await request;}catch(err){
+      $('onlineStatus').textContent='উচ্চারণ তৈরি করা যায়নি। English spelling পরীক্ষা করো; চাইলে নিজে ঠিক করে লিখতে পারো।';
+      return '';
+    }
+  }
+  let lastEnglishValue='';
+  let autoExampleValue='';
+  let translationTimer=null;
+  let translationRequestId=0;
+  async function translateTypedWord(){
+    const source=$('wordInput').value.trim();
+    if(!source)return;
+    const requestId=++translationRequestId;
+    const from=isBengali(source)?'bn':'en',to=from==='bn'?'en':'bn';
+    $('onlineStatus').textContent='অনুবাদ খোঁজা হচ্ছে...';
+    try{
+      const data=await fetchJson('https://api.mymemory.translated.net/get?q='+encodeURIComponent(source)+'&langpair='+from+'|'+to);
+      if(requestId!==translationRequestId||$('wordInput').value.trim()!==source)return;
+      const result=data?.responseData?.translatedText;
+      if(!result||data.responseStatus===403)throw new Error('No translation found');
+      const clean=result.replace(/&quot;/g,'"').replace(/&#39;/g,"'");
+      $('translationResult').value=clean;
+      if(from==='bn'){
+        $('bengali').value=source;$('english').value=clean;
+        $('pronunciation').value='';autoPronunciationValue='';
+        await autoFillPronunciation(true);
+      }else{
+        $('english').value=source;$('bengali').value=clean;
+        if(!$('pronunciation').value.trim())await autoFillPronunciation(true);
+      }
+      if(requestId===translationRequestId){
+        $('onlineStatus').textContent='অনুবাদ স্বয়ংক্রিয়ভাবে এসেছে—সংরক্ষণের আগে দেখে নিন।';
+        clearTimeout(similarTimer);
+        const similarSource=from==='bn'?clean:source;
+        similarTimer=setTimeout(()=>autoFindSimilar(similarSource),200);
+      }
+    }catch(err){if(requestId===translationRequestId)$('onlineStatus').textContent='অনুবাদ পাওয়া যায়নি। ইন্টারনেট সংযোগ পরীক্ষা করুন বা একটু পরে চেষ্টা করুন।';}
+  }
+  $('wordInput').addEventListener('input',()=>{
+    clearTimeout(pronunciationTimer);clearTimeout(translationTimer);translationRequestId++;
+    const typed=$('wordInput').value.trim();
+    $('pronunciation').value='';$('translationResult').value='';autoPronunciationValue='';
+    if($('example').value.trim()===autoExampleValue){autoExampleValue='';}
+    if(!typed){$('english').value='';$('bengali').value='';$('onlineStatus').textContent='';lastEnglishValue='';return;}
+    if(isBengali(typed)){
+      $('bengali').value=typed;$('english').value='';lastEnglishValue='';
+    }else{
+      $('english').value=typed;$('bengali').value='';lastEnglishValue=typed;
+      pronunciationTimer=setTimeout(()=>autoFillPronunciation(true),450);
+    }
+    $('onlineStatus').textContent='লেখা থামালে অনুবাদ স্বয়ংক্রিয়ভাবে আসবে...';
+    translationTimer=setTimeout(translateTypedWord,750);
+  });
+  $('wordInput').addEventListener('blur',()=>{if($('english').value.trim()&&(!$('pronunciation').value.trim()||$('pronunciation').value.trim()===autoPronunciationValue))autoFillPronunciation();});
+  $('pronunciation').addEventListener('input',()=>{ if($('pronunciation').value.trim()!==autoPronunciationValue) autoPronunciationValue=''; });
+  $('wordForm').addEventListener('submit',async e=>{
+    e.preventDefault();const bengali=$('bengali').value.trim(),english=$('english').value.trim();
+    if(english && !$('pronunciation').value.trim()) await autoFillPronunciation(true);
+    if(!bengali&&!english){toast('Enter a Bengali or English word first.');return;}
+    const id=$('editId').value;const old=words.find(w=>w.id===id);
+    const record={id:id||`${Date.now()}_${Math.random().toString(36).slice(2,8)}`,bengali,english,pronunciation:$('pronunciation').value.trim(),similar:$('similar').value.trim(),example:old?.example||'',notes:$('notes').value.trim(),createdAt:old?.createdAt||Date.now(),createdDate:old?.createdDate||todayKey(),mastered:old?.mastered||false};
+    if(id){words=words.map(w=>w.id===id?record:w);toast('Word updated successfully.');}else{words.push(record);toast('Word saved successfully.');}
+    persist();resetForm();go('vocabulary');
+  });
+  function askDelete(id){pendingDelete=id;$('confirmTitle').textContent='Delete Word';$('confirmText').textContent='Are you sure you want to delete this word? This action cannot be undone.';$('confirmOk').textContent='Yes, Delete';$('confirmDialog').showModal();}
+  $('confirmCancel').onclick=()=>{$('confirmDialog').close();pendingDelete=null;};
+  $('confirmOk').onclick=()=>{if(pendingDelete){words=words.filter(w=>w.id!==pendingDelete);persist();toast('Word deleted.');pendingDelete=null;}$('confirmDialog').close();};
+  function doSearch(value){currentFilter=value||'';$('vocabSearch').value=currentFilter;renderAll();go('vocabulary');}
+  let liveSearchTimer=null, liveSimilarRequest=0;
+  async function showLiveSimilar(value, targetId){
+    const q=(value||'').trim(); const box=$(targetId); const request=++liveSimilarRequest;
+    box.innerHTML='';
+    if(!q || isBengali(q) || q.length<2) return;
+    box.textContent='Similar words খোঁজা হচ্ছে...';
+    try{
+      const data=await fetchJson('https://api.datamuse.com/words?ml='+encodeURIComponent(q)+'&max=8');
+      if(request!==liveSimilarRequest)return;
+      const items=(Array.isArray(data)?data:[]).map(x=>x.word).filter(Boolean).slice(0,8);
+      if(!items.length){box.textContent='';return;}
+      box.innerHTML='Similar words: '+items.map(w=>`<button type="button" class="btn-soft" style="padding:5px 8px;margin:3px" data-live-sim="${escapeHtml(w)}">${escapeHtml(w)}</button>`).join('');
+      box.querySelectorAll('[data-live-sim]').forEach(b=>b.onclick=()=>{const w=b.dataset.liveSim; $('dashSearch').value=w; $('vocabSearch').value=w; doSearch(w);});
+    }catch(err){if(request===liveSimilarRequest)box.textContent='';}
+  }
+  function liveSearch(value, sourceId, resultsId){
+    clearTimeout(liveSearchTimer);
+    currentFilter=value||''; $('vocabSearch').value=currentFilter; $('dashSearch').value=value||''; renderAll();
+    liveSearchTimer=setTimeout(()=>showLiveSimilar(value,resultsId),350);
+  }
+  $('dashSearchBtn').onclick=()=>doSearch($('dashSearch').value);$('dashSearch').addEventListener('input',e=>liveSearch(e.target.value,'dashSearch','dashSimilarResults'));$('dashSearch').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch(e.target.value)});
+  $('vocabSearchBtn').onclick=()=>doSearch($('vocabSearch').value);$('vocabSearch').addEventListener('input',e=>liveSearch(e.target.value,'vocabSearch','vocabSimilarResults'));$('vocabSearch').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch(e.target.value)});
+  $('clearSearch').onclick=()=>{currentFilter='';$('vocabSearch').value='';$('dashSearch').value='';$('dashSimilarResults').innerHTML='';$('vocabSimilarResults').innerHTML='';renderAll();};
+
+  function isBengali(text){return /[\u0980-\u09FF]/.test(text);}
+  async function fetchJson(url){const r=await fetch(url);if(!r.ok)throw new Error('Online service unavailable');return r.json();}
+  let similarTimer=null, similarRequestId=0;
+  async function autoFindSimilar(word){
+    const en=(word||'').trim(); if(!en || isBengali(en)) return;
+    const requestId=++similarRequestId;
+    $('onlineStatus').textContent='অনুবাদ ও কাছাকাছি শব্দ খোঁজা হচ্ছে...';
+    try{
+      const data=await fetchJson('https://api.datamuse.com/words?ml='+encodeURIComponent(en)+'&max=12');
+      if(requestId!==similarRequestId) return;
+      const results=data.map(x=>x.word).filter(x=>x&&!x.includes(' ')).slice(0,10);
+      if(results.length) $('similar').value=results.join(', ');
+    }catch(err){ /* Similar-word lookup is optional; keep the app usable if offline. */ }
+  }
+  $('speakWord').onclick=()=>{
+    const text=$('english').value.trim();if(!text){toast('Enter an English word first.');return;}
+    if(!('speechSynthesis'in window)){toast('Speech is not supported in this browser.');return;}
+    speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-US';speechSynthesis.speak(u);
+  };
+
+  function backup(){
+    const payload={app:'My Vocabulary',version:1,exportedAt:new Date().toISOString(),words};
+    const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`My_Vocabulary_Backup_${todayKey()}.json`;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);toast('Backup file prepared.');
+  }
+  $('restoreFile').addEventListener('change',async e=>{
+    const file=e.target.files[0];if(!file)return;
+    try{
+      const parsed=JSON.parse(await file.text());const incoming=Array.isArray(parsed)?parsed:parsed.words;
+      if(!Array.isArray(incoming))throw new Error('Invalid backup');
+      const valid=incoming.filter(w=>w&&(w.bengali||w.english)).map((w,i)=>({id:String(w.id||`restore_${Date.now()}_${i}`),bengali:String(w.bengali||''),english:String(w.english||''),pronunciation:String(w.pronunciation||''),similar:String(w.similar||''),example:String(w.example||''),notes:String(w.notes||''),createdAt:Number(w.createdAt)||Date.now(),createdDate:w.createdDate||todayKey(),mastered:!!w.mastered}));
+      if(!confirm(`Restore ${valid.length} words?\n\nChoose OK to MERGE with existing words. Existing words will not be deleted. Duplicate entries may be added.`))return;
+      const ids=new Set(words.map(w=>w.id));valid.forEach(w=>{if(ids.has(w.id))w.id=`${w.id}_restored_${Math.random().toString(36).slice(2,6)}`;words.push(w);});
+      persist();toast(`${valid.length} words restored.`);go('vocabulary');
+    }catch(err){toast('Could not restore this file. Please choose a valid backup.');}
+    finally{$('restoreFile').value='';}
+  });
+
+  let practiceIndex=0;
+  function startPractice(){
+    const list=words.filter(w=>w.bengali||w.english);
+    if(!list.length){practiceWord=null;$('practicePrompt').textContent='Add words to begin practicing';$('practiceDirection').textContent='YOUR DAILY PRACTICE';$('practiceAnswer').classList.add('hidden');$('showAnswer').classList.remove('hidden');$('knewIt').classList.add('hidden');$('reviewAgain').classList.add('hidden');return;}
+    const review=list.filter(w=>!w.mastered);const pool=review.length?review:list;
+    practiceWord=pool[Math.floor(Math.random()*pool.length)];const reverse=Math.random()<.5&&practiceWord.english;
+    practiceWord._reverse=!!reverse;
+    $('practiceDirection').textContent=reverse?'ENGLISH → BENGALI':'BENGALI → ENGLISH';
+    $('practicePrompt').textContent=reverse?(practiceWord.english||practiceWord.bengali):(practiceWord.bengali||practiceWord.english);
+    $('practiceAnswer').textContent='';$('practiceAnswer').classList.add('hidden');$('practiceExtra').textContent='';
+    $('showAnswer').classList.remove('hidden');$('knewIt').classList.add('hidden');$('reviewAgain').classList.add('hidden');
+  }
+  $('showAnswer').onclick=()=>{
+    if(!practiceWord){toast('Add some words first.');return;}
+    $('practiceAnswer').textContent=practiceWord._reverse?(practiceWord.bengali||'No Bengali meaning saved'):(practiceWord.english||'No English meaning saved');
+    $('practiceAnswer').classList.remove('hidden');$('practiceExtra').textContent=practiceWord.similar?'Similar: '+practiceWord.similar:'';$('showAnswer').classList.add('hidden');$('knewIt').classList.remove('hidden');$('reviewAgain').classList.remove('hidden');
+  };
+  $('knewIt').onclick=()=>{if(practiceWord){words=words.map(w=>w.id===practiceWord.id?{...w,mastered:true}:w);persist();toast('Marked as mastered.');}startPractice();};
+  $('reviewAgain').onclick=()=>{if(practiceWord){words=words.map(w=>w.id===practiceWord.id?{...w,mastered:false}:w);persist();}startPractice();};
+  $('nextPractice').onclick=startPractice;
+
+  renderAll();
+})();
+</script>
+</body>
+</html>
