@@ -121,7 +121,7 @@ footer{text-align:center;font-size:10px;color:#8aa0a4;padding:12px}
   let words = loadWords(), pendingDelete = null, practiceWord = null, currentFilter = '';
   const $ = id => document.getElementById(id);
   function loadWords(){ try { const v=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); return Array.isArray(v)?v:[]; } catch(e){ return []; } }
-  function persist(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(words)); renderAll(); }
+  function persist(){ try { localStorage.setItem(STORAGE_KEY, JSON.stringify(words)); renderAll(); return true; } catch(e) { toast('Save failed. Browser storage may be unavailable or full.'); return false; } }
   function todayKey(){ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
   function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
   function toast(msg){$('toast').textContent=msg;$('toast').classList.remove('hidden');clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').classList.add('hidden'),2600);}
@@ -259,7 +259,7 @@ footer{text-align:center;font-size:10px;color:#8aa0a4;padding:12px}
     clearTimeout(pronunciationTimer);clearTimeout(translationTimer);translationRequestId++;
     const typed=$('wordInput').value.trim();
     $('pronunciation').value='';$('translationResult').value='';autoPronunciationValue='';
-    if($('example').value.trim()===autoExampleValue){autoExampleValue='';}
+    // Example Sentence field was removed; no example-field reference is needed here.
     if(!typed){$('english').value='';$('bengali').value='';$('onlineStatus').textContent='';lastEnglishValue='';return;}
     if(isBengali(typed)){
       $('bengali').value=typed;$('english').value='';lastEnglishValue='';
@@ -273,13 +273,14 @@ footer{text-align:center;font-size:10px;color:#8aa0a4;padding:12px}
   $('wordInput').addEventListener('blur',()=>{if($('english').value.trim()&&(!$('pronunciation').value.trim()||$('pronunciation').value.trim()===autoPronunciationValue))autoFillPronunciation();});
   $('pronunciation').addEventListener('input',()=>{ if($('pronunciation').value.trim()!==autoPronunciationValue) autoPronunciationValue=''; });
   $('wordForm').addEventListener('submit',async e=>{
-    e.preventDefault();const bengali=$('bengali').value.trim(),english=$('english').value.trim();
+    e.preventDefault();const typed=$('wordInput').value.trim();let bengali=$('bengali').value.trim(),english=$('english').value.trim();
+    if(typed){if(isBengali(typed)){bengali=typed;if(!english)english=$('translationResult').value.trim();}else{english=typed;if(!bengali)bengali=$('translationResult').value.trim();}}
     if(english && !$('pronunciation').value.trim()) await autoFillPronunciation(true);
     if(!bengali&&!english){toast('Enter a Bengali or English word first.');return;}
     const id=$('editId').value;const old=words.find(w=>w.id===id);
     const record={id:id||`${Date.now()}_${Math.random().toString(36).slice(2,8)}`,bengali,english,pronunciation:$('pronunciation').value.trim(),similar:$('similar').value.trim(),example:old?.example||'',notes:$('notes').value.trim(),createdAt:old?.createdAt||Date.now(),createdDate:old?.createdDate||todayKey(),mastered:old?.mastered||false};
     if(id){words=words.map(w=>w.id===id?record:w);toast('Word updated successfully.');}else{words.push(record);toast('Word saved successfully.');}
-    persist();resetForm();go('vocabulary');
+    if(persist()){resetForm();go('vocabulary');}
   });
   function askDelete(id){pendingDelete=id;$('confirmTitle').textContent='Delete Word';$('confirmText').textContent='Are you sure you want to delete this word? This action cannot be undone.';$('confirmOk').textContent='Yes, Delete';$('confirmDialog').showModal();}
   $('confirmCancel').onclick=()=>{$('confirmDialog').close();pendingDelete=null;};
